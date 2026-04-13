@@ -1,5 +1,8 @@
 # Autonomous Solar Yield Forecaster ☀️
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/runnet/smart-battery-forecaster/blob/main/FORECAST%20HOURLY%2BREGRESSOR%20GHI.ipynb)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+
 A non-statistical, physics-based solar power forecasting engine built to do one job flawlessly: **predict tomorrow's physical PV yield** for a real residential installation.
 
 Unlike black-box models (Prophet, LSTM, ARIMA) that tend to average out missing data, ignore recent hardware upgrades, and clip peak production, this engine uses a **Direct Physical Scaling** methodology. It analyzes your hardware's *proven recent capacity*, measures its real thermal efficiency against a clear-sky irradiance model, and then penalizes the resulting curve with satellite cloud tracking from Open-Meteo.
