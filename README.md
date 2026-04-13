@@ -11,9 +11,28 @@ The output is intended as the "brain" for **home-automation peak shaving and bat
 
 ---
 
-## 📸 Why Physics Beats Statistics
+## 🚧 The Journey — Why Not Just Use Prophet?
 
-Early iterations used Prophet and raw NASA POWER irradiance data. The model confidently predicted hundreds of watts of production at 11 PM, ignored recently-upgraded inverter capacity, and pushed the production curve hours past sunset because of timezone drift.
+The first three phases of this project tried statistical models. They all failed against real-world solar physics.
+
+### Phase 3 — Facebook Prophet on daily energy
+Prophet was fed 5 months of daily kWh and asked to forecast the next 14 days. The output was a dispersed cloud with no coherent daily bell — it couldn't separate weather noise from the deterministic astronomical signal underneath.
+
+![Prophet 14-day forecast](./assets/prophet_scatter.png)
+
+Worse, when we validated Prophet's predictions against the real plant output, the error distribution had a long negative tail: **Prophet occasionally predicted up to 200% more energy than the plant actually produced**. That's catastrophic for a battery arbitrage decision — if the bot trusts a forecast like that and drains the batteries, the house goes dark by 10 AM.
+
+![Prophet validation errors](./assets/prophet_error_histogram.png)
+
+### Phase 4 — Quantile Regression
+Same story with a different algorithm. Adding a second inverter mid-dataset broke the fit completely: the model averaged the old low-capacity days with the new high-capacity days and produced a forecast that matched neither reality.
+
+### Phase 6 — The pivot to physics
+We stopped trying to teach statistics about astrophysics. Instead, we used astrophysics directly: `pvlib` for the clear-sky envelope, Open-Meteo for the cloud GHI, and the last 7 days of real inverter logs to calibrate the actual thermal efficiency of the installation. No training, no hyperparameters, no seasonal decomposition — just physics.
+
+---
+
+## 📸 Before / After
 
 | ❌ Before — statistical model (Prophet + NASA POWER) | ✅ After — physical scaling engine |
 |:---:|:---:|
