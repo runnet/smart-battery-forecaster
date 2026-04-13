@@ -11,6 +11,17 @@ The output is intended as the "brain" for **home-automation peak shaving and bat
 
 ---
 
+## 📸 Why Physics Beats Statistics
+
+Early iterations used Prophet and raw NASA POWER irradiance data. The model confidently predicted hundreds of watts of production at 11 PM, ignored recently-upgraded inverter capacity, and pushed the production curve hours past sunset because of timezone drift.
+
+| ❌ Before — statistical model (Prophet + NASA POWER) | ✅ After — physical scaling engine |
+|:---:|:---:|
+| ![Before](./assets/forecast_before.png) | ![After](./assets/forecast_after.png) |
+| Forecast starts at 11 AM, predicts ~1 kW at midnight, underestimates peak by 60%. | Forecast tracks the clear-sky bell, respects sunrise/sunset, and matches the inverter's proven peak. |
+
+---
+
 ## ✨ Features
 
 - **Pure physics**, no training set required — the model calibrates itself every night.
